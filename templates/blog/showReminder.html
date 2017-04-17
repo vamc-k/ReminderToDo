@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+<tr><th>id</th><th>Title</th><th>Message</th><th>Remainder</th><th>created</th></tr>
+{% for reminder in reminders %}
+    <tr>
+        <td>{{ reminder.id }}</td>
+        <td>{{ reminder.title }}</td>
+        <td>{{ reminder.message }}</td>
+        <td>{{ reminder.reminderTime }}</td>
+        <td>{{ reminder.createdTime }}</td>
+        <td>
+            <a href="{% url 'edit' reminder.id %}"><input type="button" value="edit"/>
+            </a><a href="{% url 'delete' reminder.id %}"><input type="button" value="delete"/></a>
+        </td>
+    </tr>
+{% endfor %}
+</table>
+</body>
+</html>
