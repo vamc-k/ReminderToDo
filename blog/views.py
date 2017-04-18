@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+
 from django.shortcuts import render
 from django.utils import timezone
 
@@ -10,48 +10,51 @@ def index(request):
     return render(request, "blog/index.html", {})
 
 
-def add(request):
-    r = Reminder()
-    form = ReminderForm(instance=r)
-    uid = 0
-    return render(request, "blog/reminderForm.html", {'form': form, 'operation': 'new', 'id': uid})
+def error(request):
+    return render(request, "blog/error.html", {})
 
 
-def getAll(request):
+def create_reminder(request):
+    reminder = Reminder()
+    reminder_form = ReminderForm(instance=reminder)
+    id = 0
+    return render(request, "blog/reminderForm.html", {'reminder_form': reminder_form, 'id': id})
+
+
+def get_all(request):
     reminders = Reminder.objects.all()
     return render(request, "blog/showReminder.html", {'reminders': reminders})
 
 
-def save_reminder(request, operation,uid):
+def save_reminder(request, id):
     if request.method == 'POST':
-        form = ReminderForm(request.POST)
-        if form.is_valid():
-            print("SUCCESS")
-            if int(uid) > 0:
-                r = Reminder.objects.get(id=uid)
-                r.title = form.cleaned_data['title']
-                r.message = form.cleaned_data['message']
-                r.reminderTime = form.cleaned_data['reminderTime']
-                r.modifiedTime = timezone.now()
-                r.save()
+        reminder_form = ReminderForm(request.POST)
+        if reminder_form.is_valid():
+            if int(id) > 0:
+                reminder = Reminder.objects.get(id=id)
+                reminder.title = reminder_form.cleaned_data['title']
+                reminder.message = reminder_form.cleaned_data['message']
+                reminder.reminderTime = reminder_form.cleaned_data['reminderTime']
+                reminder.modifiedTime = timezone.now()
+                reminder.save()
             else:
-                form.modifiedTime = timezone.now()
-                form.save()
+                reminder_form.modifiedTime = timezone.now()
+                reminder_form.save()
         else:
-            print("ERROR")
-
+            return render(request, "blog/reminderForm.html",
+                          {'reminder_form': reminder_form, 'id': id})
     reminders = Reminder.objects.all()
     return render(request, "blog/showReminder.html", {'reminders': reminders})
 
 
-def edit(request, uid):
-    r = Reminder.objects.get(id=uid)
-    form = ReminderForm(instance=r)
-    return render(request, "blog/reminderForm.html", {'form': form, 'operation':'edit', 'id':uid})
+def edit_reminder(request, id):
+    reminder = Reminder.objects.get(id=id)
+    reminder_form = ReminderForm(instance=reminder)
+    return render(request, "blog/reminderForm.html", {'reminder_form': reminder_form, 'id': id})
 
 
-def delete(request, uid):
-    r = Reminder.objects.get(id=uid)
-    r.delete()
+def delete_reminder(request, id):
+    reminder = Reminder.objects.get(id=id)
+    reminder.delete()
     reminders = Reminder.objects.all()
     return render(request, "blog/showReminder.html", {'reminders': reminders})
