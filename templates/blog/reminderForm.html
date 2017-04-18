@@ -5,9 +5,10 @@
     <title>reminder Form</title>
 </head>
 <body>
-<form method="post" action="{% url 'create' operation id%}">
+<h4>Add Reminder</h4>
+<form method="post" action="{% url 'create' id%}">
 {% csrf_token %}<!-- required since Django 1.2 or later -->
-    {{ form.as_table }}
+    {{ reminder_form.as_ul }}
 <input type="submit" value="Submit Form"/>
 </form>
 </body>
