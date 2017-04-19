@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<center><h3>Reminders</h3></center>
+{% if reminders|length > 0 %}
+<table>
+
+<tr>
+    <th>id</th><th>Title</th><th>Message</th><th>Remainder</th><th>created</th><th>action</th>
+</tr>
+{% for reminder in reminders %}
+    <tr>
+        <td>{{ reminder.id }}</td>
+        <td>{{ reminder.title }}</td>
+        <td>{{ reminder.message }}</td>
+        <td>{{ reminder.reminderTime }}</td>
+        <td>{{ reminder.createdTime }}</td>
+        <td>
+            <a href="{% url 'edit' reminder.id %}"><button>edit</button></a>
+            <a href="{% url 'delete' reminder.id %}"><button>delete</button></a>
+        </td>
+    </tr>
+{% endfor %}
+</table>
+
+{% else %}
+    <h4>No reminders to display.<span><small> want to add click </small></span><a href="{% url 'add' %}">here</a>.</h4>
+{% endif %}
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>reminder Form</title>
+</head>
+<body>
+<h4>Add Reminder</h4>
+<form method="post" action="{% url 'create' id%}">
+{% csrf_token %}<!-- required since Django 1.2 or later -->
+    {{ reminder_form.as_ul }}
+<input type="submit" value="Submit Form"/>
+</form>
+</body>
+</html>
