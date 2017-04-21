@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 
 # Create your models here.
@@ -7,9 +6,9 @@ from django.utils import timezone
 class Reminder(models.Model):
     title = models.CharField(max_length=50)
     message = models.CharField(max_length=50)
-    reminderTime = models.DateTimeField()
-    createdTime = models.DateTimeField(default=timezone.now())
-    modifiedTime = models.DateTimeField(default=timezone.now())
+    reminderTime = models.DateTimeField(default=timezone.now())
+    createdTime = models.DateTimeField(auto_now_add=True)
+    modifiedTime = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "Reminder"
