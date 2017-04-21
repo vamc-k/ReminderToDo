@@ -1,14 +1,15 @@
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
-from rest_blog.models import Reminder
+from blog.models import Reminder
 from rest_blog.serializers import ReminderSerializer
 
 
-@api_view(['GET', 'POST'])
+@csrf_exempt
 def reminder_list(request):
     """
-    List all code snippets, or create a new Reminder.
+    List all Reminders, or create a new Reminder.
     """
     if request.method == 'GET':
         reminders = Reminder.objects.all()
@@ -24,7 +25,7 @@ def reminder_list(request):
         return JsonResponse(serializer.errors, status=400)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
+@csrf_exempt
 def reminder_detail(request, pk):
     """
     Retrieve, update or delete a Reminder.
