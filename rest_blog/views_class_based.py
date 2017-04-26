@@ -1,5 +1,5 @@
-
-from rest_framework import generics
+from rest_framework import generics, viewsets
+from rest_framework.exceptions import NotFound
 from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -11,7 +11,6 @@ from rest_framework import permissions
 
 
 class ReminderList(APIView):
-
     """
     List all Reminders, or create a new Reminder.
     """
@@ -49,31 +48,19 @@ class ReminderDetail(APIView):
             reminder = reminders.get(pk=pk)
             self.check_object_permissions(self.request, reminder)
         except Reminder.DoesNotExist:
-            reminder = 204
+            raise NotFound(detail="No resourse found with the ID you are looking.", code=None)
         return reminder
 
     def get(self, request, pk, format=None):
         content = ""
         reminder = self.get_object(pk)
-        if reminder == 204:
-            content = {
-                'status': 204,
-                'message': 'No reminder with the id you provided.'
-            }
-            return Response(content)
         serializer = ReminderSerializer(reminder)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
         reminder = self.get_object(pk)
-        if reminder == 204:
-            content = {
-                'status': 204,
-                'message': 'No reminder with the id you provided.'
-            }
-            return Response(content)
-        data = JSONParser().parse(request)
-        serializer = ReminderSerializer(reminder, data=data)
+
+        serializer = ReminderSerializer(reminder, data=request.data)
         if serializer.is_valid():
             serializer.save(owner=self.request.user)
             return Response(serializer.data)
@@ -81,25 +68,11 @@ class ReminderDetail(APIView):
 
     def delete(self, request, pk, format=None):
         reminder = self.get_object(pk)
-        if reminder == 204:
-            content = {
-                'status': 204,
-                'message': 'No reminder with the id you provided.'
-            }
-            return Response(content)
+
         reminder.delete()
-        content = {
-            'status': 202,
-            'message': 'Deleted sucessfully.'
-        }
-        return Response(content)
+        return Response(status=202)
 
 
-class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-class UserDetail(generics.RetrieveAPIView):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
