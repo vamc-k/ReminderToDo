@@ -5,9 +5,6 @@ from rest_blog import views_class_based
 urlpatterns = [
     url(r'^reminders/$', views_class_based.ReminderList.as_view()),
     url(r'^reminders/(?P<pk>[0-9]+)/$', views_class_based.ReminderDetail.as_view()),
-
-    url(r'^users/$', views_class_based.UserList.as_view()),
-    url(r'^users/(?P<pk>[0-9]+)/$', views_class_based.UserDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
