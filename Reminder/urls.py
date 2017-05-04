@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from rest_framework.authtoken import views as rf_views
+import oauth2_provider
 
 
 admin.autodiscover()
@@ -24,5 +24,8 @@ admin.autodiscover()
 urlpatterns = [
     url(r'^blog/', include('blog.urls')),
     url(r'^rest_blog/', include('rest_blog.urls')),
-    url(r'^get_auth_token/$', rf_views.obtain_auth_token, name='get_auth_token'),
+    # API authentication
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url(r'^admin/', include(admin.site.urls)),
+
 ]
