@@ -34,11 +34,11 @@ def save_reminder(request, id):
                 reminder = Reminder.objects.get(id=id)
                 reminder.title = reminder_form.cleaned_data['title']
                 reminder.message = reminder_form.cleaned_data['message']
-                reminder.reminderTime = reminder_form.cleaned_data['reminderTime']
-                reminder.modifiedTime = timezone.now()
+                reminder.reminder_time = reminder_form.cleaned_data['reminder_time']
+                reminder.modified_time = timezone.now()
                 reminder.save()
             else:
-                reminder_form.modifiedTime = timezone.now()
+                reminder_form.modified_time = timezone.now()
                 reminder_form.save()
         else:
             return render(request, "blog/reminderForm.html",

@@ -17,8 +17,8 @@
         <td>{{ reminder.id }}</td>
         <td>{{ reminder.title }}</td>
         <td>{{ reminder.message }}</td>
-        <td>{{ reminder.reminderTime }}</td>
-        <td>{{ reminder.createdTime }}</td>
+        <td>{{ reminder.reminder_time }}</td>
+        <td>{{ reminder.created_time }}</td>
         <td>
             <a href="{% url 'edit' reminder.id %}"><button>edit</button></a>
             <a href="{% url 'delete' reminder.id %}"><button>delete</button></a>

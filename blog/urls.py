@@ -7,5 +7,5 @@ urlpatterns = [
     url(r'^save/(?P<id>\d+)/$', views.save_reminder, name='create'),
     url(r'^edit/(?P<id>\d+)/$', views.edit_reminder, name='edit'),
     url(r'^delete/(?P<id>\d+)/$', views.delete_reminder, name='delete'),
-    url(r'^$',views.index),
+    url(r'^$', views.index),
 ]
