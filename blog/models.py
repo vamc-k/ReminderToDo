@@ -6,8 +6,8 @@ from rest_framework.authtoken.models import Token
 
 
 class Reminder(models.Model):
-    title = models.CharField(max_length=50)
-    message = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, null=False)
+    message = models.CharField(max_length=50, null=False)
     reminder_time = models.DateTimeField()
     created_time = models.DateTimeField(auto_now_add=True)
     modified_time = models.DateTimeField(auto_now=True)
