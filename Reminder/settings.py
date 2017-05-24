@@ -41,7 +41,13 @@ INSTALLED_APPS = [
     'rest_blog',
     'oauth2_provider',
     'django_extensions',
+    'djcelery',
+    'kombu.transport.django',
 ]
+
+import djcelery
+djcelery.setup_loader()
+BROKER_URL = "django://"
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -70,6 +76,20 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'Reminder.urls'
+
+CELERY_IMPORTS = ("rest_blog.tasks", "Reminder.celery")
+BROKER_URL = 'amqp://'
+CELERY_RESULT_BACKEND = 'amqp://'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIME_ZONE = 'Asia/Kolkata'
+
+EMAIL_USE_TLS = ('586')
+EMAIL_HOST = ('smtp.gmail.com')
+EMAIL_PORT = ('587')
+EMAIL_HOST_USER = ('12x41a0583@gmail.com')
+EMAIL_HOST_PASSWORD = ("vamsi461@K")
 
 TEMPLATES = [
     {
