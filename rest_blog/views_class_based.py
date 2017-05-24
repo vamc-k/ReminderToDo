@@ -1,3 +1,6 @@
+from datetime import datetime, tzinfo
+
+import pytz
 from rest_framework import generics, viewsets
 from rest_framework.exceptions import NotFound
 from rest_framework.parsers import JSONParser
@@ -8,6 +11,8 @@ from rest_blog.permissions import IsOwner
 from rest_blog.serializers import ReminderSerializer, UserSerializer
 from django.contrib.auth.models import User
 from rest_framework import permissions
+
+from rest_blog.tasks import send_mail_task
 
 
 class ReminderList(APIView):
@@ -26,6 +31,9 @@ class ReminderList(APIView):
         serializer = ReminderSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(owner=self.request.user)
+            reminder = Reminder.objects.get(pk=serializer.data['id'])
+            send_mail_task.apply_async(args=[serializer.data['id']],
+                                       eta=reminder.reminder_time)
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
