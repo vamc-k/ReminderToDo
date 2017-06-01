@@ -42,12 +42,8 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'django_extensions',
     'djcelery',
-    'kombu.transport.django',
 ]
 
-import djcelery
-djcelery.setup_loader()
-BROKER_URL = "django://"
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -74,6 +70,9 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
 ]
+
+import djcelery
+djcelery.setup_loader()
 
 ROOT_URLCONF = 'Reminder.urls'
 
@@ -120,8 +119,6 @@ DATABASES = {
     }
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
