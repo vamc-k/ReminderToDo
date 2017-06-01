@@ -1,9 +1,7 @@
-from datetime import datetime, tzinfo
 
-import pytz
 from rest_framework import generics, viewsets
 from rest_framework.exceptions import NotFound
-from rest_framework.parsers import JSONParser
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from blog.models import Reminder
